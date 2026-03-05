@@ -1,11 +1,9 @@
-import React from 'react'
+import {useState} from 'react'
 import './App.css'
-import JournalEntry from './components/JournalEntry'
+import EntryList from './components/EntryList'
+import EntryForm from './components/EntryForm'
 
-
-function App() {
-
-  const entries = [
+const initialEntries = [
     {
     id: 1,
     date: '2026-03-05',
@@ -27,21 +25,24 @@ function App() {
 
   ]
 
+
+function App() {
+
+const [entries, setEntries] = useState(initialEntries)
+ 
+
+function handleAdd(newEntry) {
+  setEntries([newEntry, ...entries])
+}
+
   return (
     <div style={{maxWidth: '700px', margin: '0 auto', padding: '20px' }}>
       <h1 style={{ color: '#1F3864', marginBottom: '8px' }}>My Learning Journal</h1>
-      <p  style={{ color: '#888', marginBottom: '24px' }}>Track what you learn every day.</p>
-
-      {
-         entries.map(entry => (
-          <JournalEntry
-            key={entry.id}
-            title={entry.title}
-            date={entry.date}
-            description={entries.description}
-          />
-         ))
-      }
+      <p  style={{ color: '#888', marginBottom: '24px' }}>
+         {entries.length} {entries.length === 1 ? 'entry' : 'entries'} logged
+      </p>
+      <EntryForm onAdd={handleAdd}/>
+      <EntryList entries={entries} />
     </div>
   )
 }
