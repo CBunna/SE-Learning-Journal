@@ -1,6 +1,6 @@
 import JournalEntry from './JournalEntry'
 
-const EntryList = ({entries}) => {
+const EntryList = ({entries, onDelete}) => {
     if (entries.length === 0 ) {
         return (
             <p style={{
@@ -18,6 +18,7 @@ const EntryList = ({entries}) => {
                 title={entries.title}
                 date={entries.date}
                 description={entries.description}
+                onDelete={onDelete}
             />
         ))}
     </div>

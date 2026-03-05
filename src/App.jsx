@@ -2,6 +2,8 @@ import {useState} from 'react'
 import './App.css'
 import EntryList from './components/EntryList'
 import EntryForm from './components/EntryForm'
+import SearchBar from './components/SearchBar'
+
 
 const initialEntries = [
     {
@@ -29,11 +31,20 @@ const initialEntries = [
 function App() {
 
 const [entries, setEntries] = useState(initialEntries)
+const [query, setQuery] = useState('')
  
 
 function handleAdd(newEntry) {
   setEntries([newEntry, ...entries])
 }
+
+function handleDelete(id){
+ setEntries(entries.filter(entry => entry.id !== id))
+}
+
+const filteredEntries =
+  entries.filter(entry =>  
+    entry.title.toLowerCase().includes(query.toLowerCase()) ||  entry.description.toLowerCase().includes(query.toLowerCase()))
 
   return (
     <div style={{maxWidth: '700px', margin: '0 auto', padding: '20px' }}>
@@ -42,7 +53,8 @@ function handleAdd(newEntry) {
          {entries.length} {entries.length === 1 ? 'entry' : 'entries'} logged
       </p>
       <EntryForm onAdd={handleAdd}/>
-      <EntryList entries={entries} />
+      <SearchBar query={query} onChange={setQuery} />
+      <EntryList entries={filteredEntries} onDelete={handleDelete} />
     </div>
   )
 }
