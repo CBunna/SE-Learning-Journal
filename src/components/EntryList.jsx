@@ -12,12 +12,13 @@ const EntryList = ({entries, onDelete}) => {
     }
   return (
     <div>
-        {entries.map(entries => (
+        {entries.map(entry => (
             <JournalEntry
-                key={entries.id}
-                title={entries.title}
-                date={entries.date}
-                description={entries.description}
+                key={entry.id}
+                id={entry.id}
+                title={entry.title}
+                date={entry.date}
+                description={entry.description}
                 onDelete={onDelete}
             />
         ))}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const JournalEntry = ({title, date, description, onDelete}) => {
+const JournalEntry = ({id, title, date, description, onDelete}) => {
   return (
     <div style={{
       background: 'white',

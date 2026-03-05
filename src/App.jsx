@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import './App.css'
 import EntryList from './components/EntryList'
 import EntryForm from './components/EntryForm'
@@ -30,9 +30,18 @@ const initialEntries = [
 
 function App() {
 
-const [entries, setEntries] = useState(initialEntries)
 const [query, setQuery] = useState('')
- 
+
+  // Load from localStorage on first render — if nothing saved, use initialEntries
+  const [entries, setEntries] = useState(() => {
+    const saved = localStorage.getItem('journal-entries')
+    return saved ? JSON.parse(saved) : initialEntries
+  })
+
+    // Save to localStorage every time entries changes
+  useEffect(() => {
+    localStorage.setItem('journal-entries', JSON.stringify(entries))
+  }, [entries])
 
 function handleAdd(newEntry) {
   setEntries([newEntry, ...entries])
