@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: journal-frontend
+  labels:
+    app: journal-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: journal-frontend
+  template:
+    metadata:
+      labels:
+        app: journal-frontend
+    spec:
+      containers:
+      - name: journal-frontend
+        image: bunna44/journal-frontend:latest # ← CD pipeline updates this tag
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        # ── ENVIRONMENT VARIABLES ─────────────
+        env:
+        - name: VITE_API_URL
+          value: "http://journal-backend:3001/api/entries"
+          # uses the K8s service name — not localhost!
+
+          # ── RESOURCE LIMITS ───────────────────
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+
+        # ── LIVENESS PROBE ────────────────────
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 3
+
+        # ── READINESS PROBE ───────────────────
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
