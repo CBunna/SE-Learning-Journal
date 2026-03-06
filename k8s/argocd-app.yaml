@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: learning-journal
+  namespace: argocd
+spec:
+  # ── WHERE TO DEPLOY ──────────────────────────
+  destination:
+    server: https://kubernetes.default.svc # this cluster
+    namespace: default # deploy into default namespace
+
+  # ── WHERE TO GET MANIFESTS ───────────────────
+  source:
+    repoURL: https://github.com/CBunna/SE-Learning-Journal.git
+    targetRevision: main # watch the main branch
+    path: k8s/ # watch this folder
+
+  # ── PROJECT ──────────────────────────────────
+  project: default
+
+  # ── SYNC POLICY ──────────────────────────────
+  syncPolicy:
+    automated:
+      prune: true # delete resources removed from Git
+      selfHeal: true # fix any manual changes made to cluster
+    syncOptions:
+    - CreateNamespace=true
