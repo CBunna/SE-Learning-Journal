@@ -1,47 +1,68 @@
 import { useState, useEffect } from 'react'
 
-const initialEntries = [
-    {
-    id: 1,
-    date: '2026-03-05',
-    title: 'Learned React components',
-    description: 'Understood how components work and how to pass props between them.'
-  },
-  {
-    id: 2,
-    date: '2026-03-05',
-    title: 'Practiced JSX syntax',
-    description: 'JSX looks like HTML but it is actually JavaScript. Every tag must be closed.'
-  },
-  {
-    id: 3,
-    date: '2026-03-05',
-    title: 'Tried the .map() method',
-    description: 'Used .map() to loop through an array and render a list of components.'
-  }
-]
+const API = 'http://localhost:3001/api/entries'
 
 function useEntries() {
-  const [entries, setEntries] = useState(() => {
-    const saved = localStorage.getItem('journal-entries')
-    return saved ? JSON.parse(saved) : initialEntries
-  })
+  const [entries, setEntries] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Save to localStorage whenever entries changes
+  // ── LOAD entries from server on first render ──────
   useEffect(() => {
-    localStorage.setItem('journal-entries', JSON.stringify(entries))
-  }, [entries])
+    async function fetchEntries() {
+      try {
+        setLoading(true)
+        const res = await fetch(API)
 
-  function handleAdd(newEntry) {
-    setEntries([newEntry, ...entries])
+        if (!res.ok) throw new Error('Failed to load entries')
+
+        const data = await res.json()
+        setEntries(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchEntries()
+  }, []) // empty [] = run once on mount
+
+  // ── ADD entry ──────────────────────────────────────
+  async function handleAdd(newEntry) {
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry)
+      })
+
+      if (!res.ok) throw new Error('Failed to add entry')
+
+      const saved = await res.json()
+      setEntries(prev => [saved, ...prev])
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
-  function handleDelete(id) {
-    setEntries(entries.filter(entry => entry.id !== id))
+
+// ── DELETE entry ──────────────────────────────────
+  async function handleDelete(id) {
+    try {
+      const res = await fetch(`${API}/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!res.ok) throw new Error('Failed to delete entry')
+
+      setEntries(prev => prev.filter(entry => entry.id !== id))
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
-  // Return only what components need
-  return { entries, handleAdd, handleDelete }
+  return { entries, loading, error, handleAdd, handleDelete }
 }
 
 export default useEntries

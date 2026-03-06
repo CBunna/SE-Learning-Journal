@@ -8,7 +8,7 @@ import useEntries from './hooks/useEntries'
 
 function App() {
 
-const { entries, handleAdd, handleDelete } = useEntries()
+const { entries, loading, error, handleAdd, handleDelete } = useEntries()
 const [query, setQuery] = useState('')
 
 
@@ -23,9 +23,25 @@ const [query, setQuery] = useState('')
       <p  style={{ color: '#888', marginBottom: '24px' }}>
          {entries.length} {entries.length === 1 ? 'entry' : 'entries'} logged
       </p>
-      <EntryForm onAdd={handleAdd}/>
-      <SearchBar query={query} onChange={setQuery} />
-      <EntryList entries={filteredEntries} onDelete={handleDelete} />
+
+      {error && (
+        <div style={{
+          background: '#fee', color: '#c33', padding: '12px',
+          borderRadius: '6px', marginBottom: '16px'
+        }}>
+          Error: {error}
+        </div>
+      )}
+
+      {loading ? (
+        <p style={{ textAlign: 'center', color: '#888' }}>Loading entries...</p>
+      ) : (
+        <>
+          <EntryForm onAdd={handleAdd}/>
+          <SearchBar query={query} onChange={setQuery} />
+          <EntryList entries={filteredEntries} onDelete={handleDelete} />
+        </>
+      )}
     </div>
   )
 }

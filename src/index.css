@@ -1,3 +1,4 @@
+/* ── RESET & BASE ───────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +7,228 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  background: #f0f4f8;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ── LAYOUT ─────────────────────────────────── */
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1F3864;
+  color: white;
+  padding: 20px 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.header-title {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.header-sub {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.header-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  padding: 10px 18px;
+  border-radius: 8px;
+}
+
+.badge-number {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.badge-label {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* ── ENTRY FORM ──────────────────────────────── */
+.entry-form {
+  background: white;
   padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.entry-form h2 {
+  font-size: 16px;
+  color: #1F3864;
+  margin-bottom: 14px;
+}
+
+.entry-form input,
+.entry-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.entry-form input:focus,
+.entry-form textarea:focus {
+  border-color: #2E75B6;
+}
+
+.entry-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-save {
+  background: #2E75B6;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-save:hover {
+  background: #1F5A9E;
+}
+
+/* ── SEARCH BAR ──────────────────────────────── */
+.search-bar {
+  margin-bottom: 16px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+  transition: border-color 0.2s;
+}
+
+.search-bar input:focus {
+  border-color: #2E75B6;
+}
+
+/* ── JOURNAL ENTRY CARD ──────────────────────── */
+.entry-card {
+  background: white;
+  padding: 16px 18px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border-left: 4px solid #2E75B6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+}
+
+.entry-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.entry-date {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.entry-title {
+  font-size: 16px;
+  color: #1F3864;
+  margin-bottom: 6px;
+}
+
+.entry-description {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.btn-delete {
+  background: none;
+  border: 1px solid #ffcccc;
+  color: #e74c3c;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 12px;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background: #ffeaea;
+}
+
+/* ── STATES ──────────────────────────────────── */
+.loading {
+  text-align: center;
+  color: #888;
+  padding: 48px;
+  font-size: 15px;
+}
+
+.empty {
+  text-align: center;
+  color: #aaa;
+  padding: 48px;
+  font-size: 15px;
+}
+
+.error-banner {
+  background: #ffeaea;
+  border: 1px solid #ffcccc;
+  color: #c0392b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-badge {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .badge-number {
+    font-size: 20px;
+  }
 }

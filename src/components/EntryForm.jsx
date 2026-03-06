@@ -7,11 +7,9 @@ const EntryForm = ({onAdd}) => {
   function handleSubmit(e){
     e.preventDefault()
 
-    if(!title || !description) return 
+    if(!title || !description) return
 
     const newEntry = {
-        id: Date.now(),
-        date: new Date().toISOString().split('T')[0],
         title,
         description
     }
