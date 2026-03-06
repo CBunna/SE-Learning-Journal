@@ -14,6 +14,8 @@ spec:
     repoURL: https://github.com/CBunna/SE-Learning-Journal.git
     targetRevision: main # watch the main branch
     path: k8s/ # watch this folder
+    directory:
+      recurse: true # scan subdirectories
 
   # ── PROJECT ──────────────────────────────────
   project: default
