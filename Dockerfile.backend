@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+# Set workign directory inside container
+
+WORKDIR /app
+
+# Copy package*.json to Container - do it first better caching 
+
+COPY server/package*.json ./
+
+# Install dependencies
+
+RUN npm install --production 
+
+# Copy server source code
+COPY server/ .
+
+# Expose the port Express listens on
+
+EXPOSE 3001
+
+# Start the server
+
+CMD [ "node", "index.js" ]
