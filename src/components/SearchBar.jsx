@@ -1,18 +1,11 @@
-import React from 'react'
-
-const SearchBar = ({query, onChange}) => {
+function SearchBar({ query, onChange }) {
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div className="search-bar">
       <input
         type="text"
         placeholder="🔍 Search entries..."
         value={query}
         onChange={e => onChange(e.target.value)}
-        style={{
-          width: '100%', padding: '10px 14px',
-          border: '1px solid #ddd', borderRadius: '6px',
-          fontSize: '14px', outline: 'none'
-        }}
       />
     </div>
   )
