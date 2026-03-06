@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: journal-backend
+  labels:
+    app: journal-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: journal-backend
+  template:
+    metadata:
+      labels:
+        app: journal-backend
+    spec:
+      containers:
+      - name: journal-backend
+        image: bunna44/journal-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3001
+        #-------ENVIRONMENT VARIABLES------------------
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3001"
+        #-------RESOURCE LIMITS------------------
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+          # ── LIVENESS PROBE ────────────────────
+          # K8s restarts the pod if this fails
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 10 # wait 10s before first check
+          periodSeconds: 15 # check every 15s
+          failureThreshold: 3 # restart after 3 failures
+        # ── READINESS PROBE ───────────────────
+        # K8s stops sending traffic if this fails
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3

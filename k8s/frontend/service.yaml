@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: journal-frontend
+  labels:
+    app: journal-frontend
+spec:
+  type: NodePort # exposes app outside the cluster
+  selector:
+    app: journal-frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: 30081 # access at http://localhost:30081
+    protocol: TCP
