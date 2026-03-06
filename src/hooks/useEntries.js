@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const API = 'http://localhost:3001/api/entries'
+const API = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/entries'
 
 function useEntries() {
   const [entries, setEntries] = useState([])
